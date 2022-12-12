@@ -1,7 +1,7 @@
 with open('1_input.txt') as f:
-    input = f.readlines()
+    input = f.read().split("\n")
 
-input_clean = [int(x.replace("\n","")) if x != "\n" else None for x in input]
+input_clean = [int(x) if x else None for x in input]
 
 cals_per_elf = []
 total_cals = 0
@@ -13,6 +13,7 @@ for cals in input_clean:
         total_cals = 0
 
 max_cals = max(cals_per_elf)
-elf_number = cals_per_elf.index(max_cals) + 1
+print(f"Highest number of calories: {max_cals} kcal")
 
-print(f"Elf {elf_number} has the most calories, with {max_cals} kcal in total.")
+top_3_summed = sum(sorted(cals_per_elf)[-3:])
+print(f"Highest 3 calories summed: {top_3_summed} kcal")
