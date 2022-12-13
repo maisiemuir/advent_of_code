@@ -81,6 +81,7 @@ class getShortestPath:
     def run(self):
         num_steps = 0
         found_E = False
+        posns_alrdy_branched_from = []
         while not found_E:
             # Get new routes
             if num_steps == 0:
@@ -90,12 +91,15 @@ class getShortestPath:
             new_all_routes = []
             for route in all_routes:
                 current_pos = route[-1]
-                possible_moves = self.get_all_possible_moves(current_pos, route)
-                for move in possible_moves:
-                    a_new_route = route.copy()
-                    next_pos = self.get_next_pos(current_pos, move)
-                    a_new_route.append(next_pos)
-                    new_all_routes.append(a_new_route)
+                if current_pos not in posns_alrdy_branched_from:
+                    possible_moves = self.get_all_possible_moves(current_pos, route)
+                    for move in possible_moves:
+                        a_new_route = route.copy()
+                        next_pos = self.get_next_pos(current_pos, move)
+                        a_new_route.append(next_pos)
+                        new_all_routes.append(a_new_route)
+                    posns_alrdy_branched_from.append(current_pos)#
+
             num_steps += 1
             # Check if found E
             for route in new_all_routes:
@@ -106,8 +110,7 @@ class getShortestPath:
             if num_points_traversed >= self.num_grid_points:
                 print("Something has gone wrong.")
                 break
-            print(f"Steps taken: {num_steps}")
-            print(f"Number of routes: {len(new_all_routes)}")
+
         print(f"End found in {num_steps} steps.")
 
 example_grid = [['S','a','b','q','p','o','n','m'],
