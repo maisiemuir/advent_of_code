@@ -3,6 +3,7 @@ class getShortestPath:
         self.grid = grid
         self.grid_height = len(self.grid)
         self.grid_width = len(self.grid[0])
+        self.num_grid_points = self.grid_height * self.grid_width
 
         # Get start position
         for i in range(self.grid_height):
@@ -101,6 +102,12 @@ class getShortestPath:
                 i_current, j_current = route[-1]
                 if self.grid[i_current][j_current] == "E":
                     found_E = True
+            num_points_traversed = num_steps + 1
+            if num_points_traversed >= self.num_grid_points:
+                print("Something has gone wrong.")
+                break
+            print(f"Steps taken: {num_steps}")
+            print(f"Number of routes: {len(new_all_routes)}")
         print(f"End found in {num_steps} steps.")
 
 example_grid = [['S','a','b','q','p','o','n','m'],
@@ -112,4 +119,9 @@ example_grid = [['S','a','b','q','p','o','n','m'],
 path_finder = getShortestPath(example_grid)
 path_finder.run()
 
-#my_grid =
+with open('12_input.txt') as f:
+    my_grid = f.read().split("\n")
+    my_grid = [list(row) for row in my_grid]
+
+path_finder = getShortestPath(my_grid)
+path_finder.run()
