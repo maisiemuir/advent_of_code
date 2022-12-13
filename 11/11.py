@@ -42,7 +42,7 @@ class MonkeyGame:
             new = old + val
         else: #method == "square"
             new = old * old
-        new = round(new/3)
+        new = new//3
         return new
 
     @staticmethod
