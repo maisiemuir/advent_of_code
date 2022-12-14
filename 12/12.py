@@ -166,4 +166,5 @@ for grid in grids:
     path_finder = getShortestPath(grid)
     num_steps = path_finder.run()
     shortest_paths.append(num_steps)
+shortest_paths = [x if x else 9999999 for x in shortest_paths]
 print(f"The shortest path found is was {min(shortest_paths)} steps.")
