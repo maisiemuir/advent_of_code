@@ -1,3 +1,5 @@
+import copy
+
 class getShortestPath:
     def __init__(self, grid):
         self.grid = grid
@@ -107,11 +109,12 @@ class getShortestPath:
                 if self.grid[i_current][j_current] == "E":
                     found_E = True
             num_points_traversed = num_steps + 1
-            if num_points_traversed >= self.num_grid_points:
-                print("Something has gone wrong.")
-                break
+            if num_points_traversed == self.num_grid_points:
+                return None # No possible solution
 
-        print(f"End found in {num_steps} steps.")
+        return num_steps
+
+# PART 1
 
 example_grid = [['S','a','b','q','p','o','n','m'],
                 ['a','b','c','r','y','x','x','l'],
@@ -120,11 +123,47 @@ example_grid = [['S','a','b','q','p','o','n','m'],
                 ['a','b','d','e','f','g','h','i']]
 
 path_finder = getShortestPath(example_grid)
-path_finder.run()
+num_steps = path_finder.run()
+print(f"End found in {num_steps} steps.")
 
 with open('12_input.txt') as f:
     my_grid = f.read().split("\n")
     my_grid = [list(row) for row in my_grid]
 
 path_finder = getShortestPath(my_grid)
-path_finder.run()
+num_steps = path_finder.run()
+print(f"End found in {num_steps} steps.")
+
+# PART 2
+
+# Get all possible grid variations
+def get_all_possible_grids(grid):
+    a_coords = []
+    # Find original start position first
+    for i in range(len(grid)):
+        for j in range(len(grid[0])):
+            if grid[i][j] == "S":
+                a_coords.append([i, j])
+    # Find the rest of the "a" values
+    for i in range(len(grid)):
+        for j in range(len(grid[0])):
+            if grid[i][j] == "a":
+                a_coords.append([i, j])
+
+    grids = []
+    grid[a_coords[0][0]][a_coords[0][1]] = "a"
+    for idx, coord in enumerate(a_coords):
+        i, j = coord
+        temp_grid = copy.deepcopy(grid)
+        temp_grid[i][j] = "S"
+        grids.append(temp_grid)
+    return grids
+
+
+grids = get_all_possible_grids(my_grid)
+shortest_paths = []
+for grid in grids:
+    path_finder = getShortestPath(grid)
+    num_steps = path_finder.run()
+    shortest_paths.append(num_steps)
+print(f"The shortest path found is was {min(shortest_paths)} steps.")
