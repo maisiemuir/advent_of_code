@@ -24,7 +24,7 @@ class MonkeyGame:
 
     def perform_test(self, worry_lvl, n, true_idx, false_idx):
         if not self.divide_by_3:
-            if worry_lvl > 96577*3:
+            if worry_lvl > self.divisor*3: # The 3 is (semi) arbitrary
                 worry_lvl = worry_lvl - (self.divisor)*((worry_lvl//self.divisor) - 1)
         if worry_lvl % n == 0:
             return true_idx, worry_lvl
