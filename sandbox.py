@@ -31,3 +31,6 @@ x = 1
 print([x])
 
 print("aaa" + "aaa")
+
+mydict = {}
+print([x+1 for x in range(10)])
