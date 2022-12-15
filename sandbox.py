@@ -29,3 +29,5 @@ except IndexError:
 print(x)
 x = 1
 print([x])
+
+print("aaa" + "aaa")
