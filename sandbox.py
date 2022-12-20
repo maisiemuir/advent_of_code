@@ -34,3 +34,6 @@ print("aaa" + "aaa")
 
 mydict = {}
 print([x+1 for x in range(10)])
+
+print([1,2,3] + [3,4])
+print([4,7,9][-2:])
