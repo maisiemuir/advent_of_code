@@ -2,11 +2,11 @@ class beaconExclusions:
     def __init__(self, file_name):
         self.coords = self.read_file(file_name)
         self.initialise_grid()
-        self.display_grid()
+        #self.display_grid()
         self.populate_grid()
 
     def read_file(self, file_name):
-        with open("15_example_input" + ".txt") as f:
+        with open(file_name + ".txt") as f:
             input = f.read().split("\n")
             coords = []
             for row in input:
@@ -41,9 +41,9 @@ class beaconExclusions:
 
     def initialise_grid(self):
         self.get_min_max()
+        print(f"width: {abs(self.max_x - self.min_x)}")
+        print(f"height: {abs(self.max_y - self.min_y)}")
         self.map = [["." for x in range(self.min_y, self.max_y + 1)] for y in range(self.min_x, self.max_x + 1)]
-        print(f"width: {len(self.map[0])}")
-        print(f"height: {len(self.map)}")
 
     def display_grid(self):
         string = ""
@@ -61,30 +61,34 @@ class beaconExclusions:
     def populate_grid(self):
         for row in self.coords:
             sensor_coord = row[:2]
-            #print(f"sensor_coord: {sensor_coord}")
+            print(f"sensor_coord: {sensor_coord}")
             beacon_coord = row[-2:]
-            #print(f"beacon_coord: {beacon_coord}")
+            print(f"beacon_coord: {beacon_coord}")
             distance = self.manhattan_distance(sensor_coord, beacon_coord)
             self.assign_grid(sensor_coord[0], sensor_coord[1], "S")
             self.assign_grid(beacon_coord[0], beacon_coord[1], "B")
-            for x in range(self.min_x, self.max_x + 1):
-                for y in range(self.min_y, self.max_y + 1):
-                    #print()
-                    #print(f"x,y = {x},{y}")
-                    #print(self.grid(x,y))
+            for x in range(sensor_coord[0] - distance, sensor_coord[0] + distance + 1):
+                print(f"x = {x}...")
+                for y in range(sensor_coord[1] - distance, sensor_coord[1] + distance + 1):
                     if self.grid(x,y) == ".":
                         if self.manhattan_distance(sensor_coord, [x,y]) <= distance:
                             self.assign_grid(x,y,"#")
-            self.display_grid()
+            break
+            #self.display_grid()
 
     def count_beacon_not_present(self, y):
         count = 0
         for x in range(self.min_x, self.max_x + 1):
             if self.grid(x,y) == "#" or self.grid(x,y) == "S":
+                print(f"x,y = {x}, {y}")
                 count+=1
         print(f"Number of positions that cannot contain beacon: {count}")
 
 
 
-beacon_exclusions = beaconExclusions("15_example_input")
-beacon_exclusions.count_beacon_not_present(y=10)
+#beacon_exclusions = beaconExclusions("15_example_input")
+#beacon_exclusions.count_beacon_not_present(y=10)
+beacon_exclusions = beaconExclusions("15_input")
+#rint(beacon_exclusions.min_x)
+#print(beacon_exclusions.min_y)
+#beacon_exclusions.count_beacon_not_present(y=2000000)
